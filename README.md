@@ -62,3 +62,23 @@ Verifies the new remote URL. Push the changes in your local repository to GitHub
 Pushes the changes in your local repository up to the remote repository you specified as the origin
 
 
+Hard Drives 
+===========
+ 
+    1.) List all devices.
+        
+        $ lsblk
+
+    2.) 2. Create a mount point :
+
+        $ sudo  mkdir /media/usb
+
+    3.) Mount!
+
+        sudo mount /dev/sdb1 /media/usb
+
+    4.) Copy
+
+        cp -a /home/android/Testproject/ /media/usb/ 
+
+

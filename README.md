@@ -82,3 +82,128 @@ Hard Drives
         cp -a /home/android/Testproject/ /media/usb/ 
 
 
+Common DockerHub Repository Managment Commands
+
+Name: Michael.C Ryan
+Date: Thursday, April 27 2017
+
+
+1.) Logging into your Dockerhub account. This is required if you want to push images to a repository.
+    
+    Command:
+    $ sudo docker login --username=<DockerhubAccount> --email=<DockerHub Email>
+
+    Example:
+    $ sudo docker login --username=mriotimpactlabs --email=mr@iotimpactlabs.com
+    
+    stdout:
+    Flag --email has been deprecated, will be removed in 17.06.
+    Password: **docker*******
+    Login Succeeded
+
+
+
+
+2.) Suppose you have a container which you modified. If you wish to create a new image from it.
+
+    Command:
+    $ sudo docker commit <containerID> <Repository>:<Tag>
+
+    Example:
+    $ docker commit c3f279d17e0a  svendowideit/testimage:version3
+    
+    stdout:
+    f5283438590d
+    
+    Command:
+    $ docker images
+    
+    stdout:
+    REPOSITORY               TAG        ID             CREATED          SIZE
+    svendowideit/testimage   version3   f5283438590d   16 seconds ago   335.7 MB
+
+
+    Technical Notes: 
+    
+    1.) New images will be located in your local image bank. You can find them by running $ docker images
+
+
+
+
+3.) Suppose you want to push your new image to a repository on your DockerHub account:
+
+    Command
+    $ docker tag <imageID> <Repository>:<Tag>
+
+    Example
+    $ docker tag 7h8de2n5 spacetimeengineer/gmat:latest
+
+    Command
+    $ sudo docker push <imageID> <Repository>:<Tag>
+    
+    Example
+    $ sudo docker push spacetimeengineer/gmat:latest
+
+    stdout:
+    [sudo] password for spacetimeengineer: 
+    The push refers to a repository [docker.io/mriotimpactlabs/weewx-newmountain-nm150]
+    c39628e5580e: Layer already exists 
+    2bffca1b4f64: Layer already exists 
+    31cf9754690f: Layer already exists 
+    3bef87fe7c3b: Layer already exists 
+    56827159aa8b: Layer already exists 
+    440e02c3dcde: Layer already exists 
+    29660d0e5bb2: Layer already exists 
+    85782553e37a: Layer already exists 
+    745f5be9952c: Layer already exists 
+    latest: digest: sha256:b2637b08e886f68a29640f7ee278fb2641822f4ff44ee76eec0527509ded0995 size: 2192
+
+
+
+
+4.) Suppose you wanted to tag an image with a timestamp or a most recent indicator.
+
+    Command:
+    $ docker tag <imageID> <Repository>:<Tag>
+
+    Example:
+    $ docker tag 7d9495d03763 mriotimpactlabs/weexw-newmountain-nm150:latest
+    
+    stdout:
+    No output
+    
+    Technical Notes: 
+    
+    1.) Tags are great for time stamping. 
+    
+    2.) It is standard practice to tag an image as "latest" if it is the most recent.
+
+
+
+
+5.) Suppose you wanted to pull an image from some repository.
+
+    Command:
+    $ docker pull <Repository>:<Tag>
+
+    Example:
+    $ docker pull mriotimpactlabs/weewx-newmountain-nm150:latest
+
+    stdout:
+    Using default tag: latest
+    latest: Pulling from mriotimpactlabs/weewx-newmountain-nm150:latest
+    d54efb8db41d: Pull complete 
+    f8b845f45a87: Pull complete 
+    e8db7bf7c39f: Pull complete 
+    9654c40e9079: Pull complete 
+    6d9ef359eaaa: Pull complete 
+    8f08d69bea92: Pull complete 
+    8290b19e2c0f: Pull complete 
+    08fdfae9c106: Pull complete 
+    5b7cd807f2cd: Pull complete 
+    Digest: sha256:b2637b08e886f68a29640f7ee278fb2641822f4ff44ee76eec0527509ded0995
+    Status: Downloaded newer image for mriotimpactlabs/weewx-newmountain-nm150:latest
+
+
+
+

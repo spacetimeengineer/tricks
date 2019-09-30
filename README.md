@@ -1,7 +1,7 @@
 Bash Tricks
 ===========
 
-1.) locate: Description: Lists all files with permission that contain string.
+locate: Description: Lists all files with permission that contain string.
         
     $ locate <String>
 
@@ -9,7 +9,15 @@ Bash Tricks
 
     $ locate -i -n <QuantityOfListItems> <String>
     
-2.) grep:
+Example:
+
+    $ locate <String>
+
+    $ locate -i <String> | less
+
+    $ locate -i -n <QuantityOfListItems> <String>      
+    
+grep:
         
     # Lists highlighted instances of <String> within <File> in a cat type format.
     $ grep <String> <File>
@@ -21,7 +29,7 @@ Bash Tricks
     $ grep -rl "string" /path
         
 
-3.) find: Lists all files in directory with <StringWithinFileName> contained in it's file name.
+find: Lists all files in directory with <StringWithinFileName> contained in it's file name.
 
     # Lists all files in directory with <StringWithinFileName> contained in it's file name.
     $ find -name "*<StringWithinFileName>*"

@@ -69,9 +69,11 @@ Verifies the new remote URL. Push the changes in your local repository to GitHub
 
 Pushes the changes in your local repository up to the remote repository you specified as the origin
 
+Dockerhub Managment
+===================
 
-Hard Drives 
-===========
+Hard Drive Managment
+====================
  
     1.) List all devices.
         

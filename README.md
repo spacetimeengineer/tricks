@@ -215,5 +215,59 @@ Date: Thursday, April 27 2017
     Status: Downloaded newer image for mriotimpactlabs/weewx-newmountain-nm150:latest
 
 
+Configuration Document: Installing and testing Mosquitto MQTT broker and clients on linux.
+Maintatiner: Michael.C Ryan
+
+
+1.) Install mosquitto-clients
+
+    $ apt-get install mosquitto-clients.
+
+2.) Test publishing.
+
+    $ mosquitto_pub -h <broker> -m <message> -t <topic>
+    
+    Example:
+    
+    mosquitto_pub -h iot.eclipse.org -m "HELLO WORLD" -t testing/sensor/luminosity
+ 
+3.) Test subscribing.
+
+    $ mosquitto_sub -h <broker> -t <topic>
+    
+    Example:
+    
+    mosquitto_sub -h iot.eclipse.org -t testing/sensor/luminosity
+
+Pip Notes
+=========
+
+  479  pip3 install twine
+  480  pip3 install --upgrade pip
+  481  pip3 install twine
+  482  pip3 install -U setuptools wheel
+  483  cd
+  484  cd Desktop/spacetimeengine
+  485  ls
+  486  python setup.py sdist
+  487  python3 setup.py sdist
+  488  cd
+  489  cd Desktop/spacetimeengine
+  490  ls
+  491  twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+  492  twine upload dist/*
+  494  pwd
+  495  twine upload --repository pypi dist/*
+  496  pip install -i https://upload.pypi.org/legacy/ spacetimeengine
+  497  twine upload --repository pypi dist/*
+  498  twine upload --repository https://upload.pypi.org/legacy/ dist/*
+  499  twine upload --repository https://upload.pypi.org/legacy/ dist/*
+  500  twine upload --repository pypi dist/*
+
+
+
+python setup.py sdist bdist_wheel
+twine upload dist/*
+
 
 

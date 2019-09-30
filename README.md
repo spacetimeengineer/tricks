@@ -242,32 +242,197 @@ Maintatiner: Michael.C Ryan
 Pip Notes
 =========
 
-  479  pip3 install twine
-  480  pip3 install --upgrade pip
-  481  pip3 install twine
-  482  pip3 install -U setuptools wheel
-  483  cd
-  484  cd Desktop/spacetimeengine
-  485  ls
-  486  python setup.py sdist
-  487  python3 setup.py sdist
-  488  cd
-  489  cd Desktop/spacetimeengine
-  490  ls
-  491  twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-  492  twine upload dist/*
-  494  pwd
-  495  twine upload --repository pypi dist/*
-  496  pip install -i https://upload.pypi.org/legacy/ spacetimeengine
-  497  twine upload --repository pypi dist/*
-  498  twine upload --repository https://upload.pypi.org/legacy/ dist/*
-  499  twine upload --repository https://upload.pypi.org/legacy/ dist/*
-  500  twine upload --repository pypi dist/*
+        479  pip3 install twine
+        480  pip3 install --upgrade pip
+        481  pip3 install twine
+        482  pip3 install -U setuptools wheel
+        483  cd
+        484  cd Desktop/spacetimeengine
+        485  ls
+        486  python setup.py sdist
+        487  python3 setup.py sdist
+        488  cd
+        489  cd Desktop/spacetimeengine
+        490  ls
+        491  twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+        492  twine upload dist/*
+        494  pwd
+        495  twine upload --repository pypi dist/*
+        496  pip install -i https://upload.pypi.org/legacy/ spacetimeengine
+        497  twine upload --repository pypi dist/*
+        498  twine upload --repository https://upload.pypi.org/legacy/ dist/*
+        499  twine upload --repository https://upload.pypi.org/legacy/ dist/*
+        500  twine upload --repository pypi dist/*
 
 
 
-python setup.py sdist bdist_wheel
-twine upload dist/*
+        python setup.py sdist bdist_wheel
+        twine upload dist/*
 
+Prerequisites
+
+    1.) You must have Ubuntu-Core-16 installed on your gateway.
+
+
+Procedure
+
+
+1.) Install network tools.
+
+    $ sudo snap install docker
+    
+    $ snap install network-manager
+    
+    $ snap install modem-manager
+    
+    $ snap install wifi-ap 
+
+
+3.) Check connection status:
+
+    $ systemctl status snap.network-manager.networkmanager
+
+
+4.) List wifi devices or connections.  
+
+    $ network-manager.nmcli device wifi list
+
+
+5.) Turn off radio
+
+    $ network-manager.nmcli radio wifi off
+    
+    
+6.) Turn on wifi radio
+
+    $ network-manager.nmcli radio wifi on
+    
+      
+7.) Delete connection 
+
+    $ nmcli connection delete XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    
+    
+8.) Show connections
+
+    $ sudo network-manager.nmcli con
+    
+    
+    
+
+12.) Configure gsm connection.
+
+    $ sudo network-manager.nmcli con add con-name vzw-wireless ifname ttyACM3 type gsm apn vzwinternet
+    
+13.) Activate connection.
+
+    $ sudo network-manager.nmcli con up <name>
+        
+
+
+Configuring an ad-hoc network with Ubuntu Core 16.
+
+    $ sudo network-manager.nmcli con edit “Wired connection 2”
+        
+        # Changes the name of the connection.
+        nmcli> set connection.id "ad-hoc"
+    
+        # Prints out information associated with ipv4.
+        nmcli> print ipv4
+
+        # Sets a static IP address. This is the address that you ssh into with 
+
+
+        $ sudo ssh admin@192.168.0.160
+
+
+
+        nmcli> set ipv4.addresses 192.168.0.160/24
+
+        # This will be prompted.
+        Do you also want to set 'ipv4.method' to 'manual'? [yes]: yes
+
+        # Save the configuration.
+        nmcli> save
+
+
+Wifi Notes
+==========
+        
+        
+        
+$ mmcli -L 
+Found 1 modems: 
+/org/freedesktop/ModemManager1/Modem/2 [Telit] LE910-SV V2
+
+Once the index number is obtained we need to edit the PDP context three with the correct APN. In this example, we are using we01.vzwstatic, but again the APN needed should be confirmed with Verizon.
+
+$ mmcli -m 2 --command='+CGDCONT=3,"IPV4V6","we01.vzwstatic"'
+
+You can confirm the profile was updated correctly by sending a query to the modem for its saved profiles:
+
+$ mmcli -m 2 --command='+CGDCONT?' 
+response:
+'+CGDCONT: 1,"IPV4V6","vzwims","",0,0 
++CGDCONT: 2,"IPV4V6","vzwadmin","",0,0 
++CGDCONT: 3,"IPV4V6","ne01.vzwstatic","",0,0'
+You can now create the connection profile in Ubuntu Network Manager and connect the network.
+
+
+
+    $ sudo snap install wifi-ap
+
+
+5.) Enable the access point and restart the service:
+
+
+    $ sudo /snap/bin/wifi-ap.config set disabled=false
+
+
+$ sudo systemctl start snap.wifi-ap.backend
+
+                                   
+
+WiFi-AP default SSID Ubuntu should now visible to clients.
+ 
+Wifi-ap docs: https://docs.ubuntu.com/core/en/stacks/network/wifi-ap/docs
+
+
+
+The snap can be installed from the Ubuntu Store with the following command
+$ snap install wifi-ap
+$ snap connect wifi-ap:network-manager network-manager:service
+
+
+
+
+
+$ wifi-ap.status
+$ sudo wifi-ap.config get wifi.security-passphrase
+$ wifi-ap.config set disabled=false
+$ wifi-ap.config set wifi.security=wpa2 wifi.security-passphrase=Test1234
+Simultaneous STA / AP Mode
+If your hardware and the kernel driver supports a simultaneous STA / AP mode you can stay connected to another access point while running your own. The only shortcoming here is that both have to operate on the same channel.
+You may find the current channel being used for the STA connection by looking at the STA network interface with the iw command.
+To get the iw command available on an Ubuntu Core system install the wireless-tools snap from the store
+$ snap install wireless-tools
+Connect required slots/plugs
+$ snap connect wireless-tools:network-control core:network-control
+Now you can run the iw command to find the current channel being used
+$ wireless-tools.iw dev
+phy#0
+    Unnamed/non-netdev interface
+        wdev 0x4
+        addr aa:bb:cc:dd:ee:ff
+        type P2P-device
+    Interface wlan0
+        ifindex 3
+        wdev 0x1
+        addr aa:bb:cc:dd:ee:ff
+        type managed
+        channel 1 (2412 MHz), width: 20 MHz, center1: 2412 MHz
+NOTE: If the channel is not part of the output your kernel WiFi driver doesn’t report the channel.
+The relevant line showing the channel being used is highlighted above. In this case it is channel 1. The next step is to configure the wifi-ap snap with the channel
+$ wifi-ap.config set wifi.channel=1
 
 

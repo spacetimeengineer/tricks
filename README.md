@@ -40,6 +40,14 @@ find: Lists all files in directory with <StringWithinFileName> contained in it's
 Git management
 ==============
 
+Clone private repository over https:
+
+Example:
+
+        $ git clone https://github.com/someGithubUsername/someGithubProject.git
+
+This will prompt you to authenticate with a github username and password.
+
 Create a new repository on GitHub. To avoid errors, do not initialize the new repository with README, license, or gitignore files. You can add these files after your project has been pushed to GitHub. Open Terminal and change the current working directory to your local project.
 Initialize the local directory as a Git repository.
 

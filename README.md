@@ -36,7 +36,11 @@ find: Lists all files in directory with <StringWithinFileName> contained in it's
       
       
 
+lscpu:
 
+        $ lscpu
+        
+       
 Git management
 ==============
 
